@@ -1,3 +1,4 @@
+//data de prueba
 const todosDiario = [
   { text: "Revisar correos", completed: false },
   { text: "Revisar pendientes", completed: false },
@@ -19,82 +20,101 @@ const lista = document.querySelector(".lista");
 const listarTodos=()=>{
         lista.innerHTML="";
         todosDiario.forEach((todo)=>{
-        const {text}= todo;
-        const item  =  document.createElement("li");
-        
-        const desc=document.createElement("span");
-        desc.innerText=text;    
-        item.appendChild(desc);
+            const {text}= todo;
 
-        const btnEdit = document.createElement("button");
-        btnEdit.innerHTML="editar";
-        btnEdit.classList.add("editar");
-        btnEdit.addEventListener("click",(e)=>{
-            console.log('ja');
-            const dsc =e.target.previousElementSibling.innerText;
-            console.log(dsc);
-            e.target.previousElementSibling.style.display="none";
-            const inputEdit=document.createElement("input");
-            inputEdit.value=dsc;
-            item.prepend(inputEdit);
-            btnSave.disabled=false;
+            //creando item LI
+            const item  =  document.createElement("li");
+            item.classList.add("lista__item");
+            
+            //creando texto todo
+            const desc=document.createElement("span");
+            desc.innerText=text;    
+            item.appendChild(desc);
 
-        });    
+            //creando boton editar
+            const btnEdit = document.createElement("button");
+            btnEdit.innerHTML="editar";
+            btnEdit.classList.add("item__btn", "item__btn--editar");
+            btnEdit.addEventListener("click",(e)=>{
+                const dsc =e.target.previousElementSibling.innerText;
+                e.target.previousElementSibling.style.display="none";
+                
+                if(!e.target.previousElementSibling.previousElementSibling){
+                    const inputEdit=document.createElement("input");
+                    inputEdit.value=dsc;
+                    item.prepend(inputEdit);
+                }else{
+                    e.target.previousElementSibling.previousElementSibling.style.display="inline";
+                }
+                
+                btnSave.disabled=false;
+                btnEdit.disabled=true;
+            });    
+                
+            item.appendChild(btnEdit);
 
-        item.appendChild(btnEdit);
-
-        const btnSave = document.createElement("button");
-        btnSave.innerHTML="guardar";
-        btnSave.classList.add("guardar");
-        btnSave.disabled=true;
-        btnSave.addEventListener("click",(e)=>{
-            const domInputItem=e.target.previousElementSibling.previousElementSibling.previousElementSibling;
-            const value=domInputItem.value;
-            console.log(value);
-            const i= todosDiario.findIndex((item)=>{
-                console.log(domInputItem.nextElementSibling.innerText);
-                return  item.text===domInputItem.nextElementSibling.innerText;
-            });
-
-            console.log(i);
-            if (i!==-1){
-                todosDiario[i].text=value;
-            }
-
-            domInputItem.style.display="none";
-            domInputItem.nextElementSibling.innerText=value;
-            domInputItem.nextElementSibling.style.display="inline";
+            //agregar boton guardar
+            const btnSave = document.createElement("button");
+            btnSave.innerHTML="guardar";
+            btnSave.classList.add("item__btn","item__btn--guardar");
             btnSave.disabled=true;
+            btnSave.addEventListener("click",(e)=>{
 
-        });
+                //input todo hide
+                const domInputItem=e.target.previousElementSibling.previousElementSibling.previousElementSibling;
+                const value=domInputItem.value;
 
-        item.appendChild(btnSave);
+                //obteniendo index en base del texto todo
+                const i= todosDiario.findIndex((item)=>{
+                    return  item.text===domInputItem.nextElementSibling.innerText;
+                });
+                //actualizando array todo
+                if (i!==-1){
+                    todosDiario[i].text=value;
+                }
 
-        const btnDelete = document.createElement("button");
-        btnDelete.innerHTML="eliminar";
-        btnDelete.classList.add("eliminar");
-        btnDelete.addEventListener('click',(e)=>{
-            const i=todosDiario.findIndex((todoItem)=>{
-                        console.log(e.target.previousElementSibling.previousElementSibling.previousElementSibling.innerText);
-                        console.log(todosDiario);
-                       return todoItem.text===e.target.previousElementSibling.previousElementSibling.previousElementSibling.innerText;
+                //ocultando input
+                domInputItem.style.display="none";
+
+                //renderizando el textotodo
+                domInputItem.nextElementSibling.innerText=value;
+                domInputItem.nextElementSibling.style.display="inline";
+                btnSave.disabled=true;
+                btnEdit.disabled=false;    
             });
 
-            if (i!==-1){
-                todosDiario.splice(i,1);
-            }
-            e.target.parentNode.remove();
-        });
-        item.appendChild(btnDelete);
-        lista.appendChild(item);
+            item.appendChild(btnSave);
+
+            //agregando boton eliminar
+            const btnDelete = document.createElement("button");
+            btnDelete.innerHTML="eliminar";
+            btnDelete.classList.add("item__btn","item__btn--eliminar");
+            btnDelete.addEventListener('click',(e)=>{
+                //buscando index de array todo apartir del texto todo
+                const i=todosDiario.findIndex((todoItem)=>{
+                        return todoItem.text===e.target.previousElementSibling.previousElementSibling.previousElementSibling.innerText;
+                });
+
+                //elimina del array
+                if (i!==-1){
+                    todosDiario.splice(i,1);
+                }
+
+                //elimina en el renderizado
+                e.target.parentNode.remove();
+            });
+            item.appendChild(btnDelete);
+            lista.appendChild(item);
     });
 }
 
+//listar todos los nodos 
 listarTodos();
+
 
 //agregar nodos
 const formulario = document.querySelector(".form");
-const input = document.querySelector(".form_input"); 
+const input = document.querySelector(".form__input"); 
 formulario.addEventListener('submit',(e)=>{
     e.preventDefault();
     if(!input.value.trim()){
@@ -103,7 +123,4 @@ formulario.addEventListener('submit',(e)=>{
     todosDiario.push({text:input.value.trim(),completed:false});
     input.value="";
     listarTodos();
-         console.log(todosDiario);
 });
-
-//eliminar nodo

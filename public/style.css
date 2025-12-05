@@ -1,0 +1,96 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root{
+    height: 100%;
+    font-size: 62.5%;
+      --g1: #348665;   /* verde */
+      --g2: #2b6acf;   /* azul */
+      --g3: #A78BFA;   /* lila */
+      --fg: #0f172a; 
+}
+
+body {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    min-height: 100%;
+
+}
+
+.todo{
+    background: linear-gradient(135deg, #ff4b2b, #ff416c);
+    border-radius: 10px;
+    width: 100%;
+    padding: 20px;
+    min-height: 100%;
+}
+
+.todo__title{
+    text-align: center;    
+    color: white;
+    font-weight: 800;
+    font-size: 3rem;
+}
+
+.form{
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.form__input{
+    outline: none;
+    border: none;
+    height: 30px;
+    width: calc( 100% - 104px);
+    font-size: 1.6rem;
+    padding-left: 10px;
+}
+
+.form__btn{
+    height: 30px;
+    width: 100px;
+    border: none;
+}
+
+.form__btn:hover{
+    cursor: pointer;
+}
+
+
+.lista{
+    list-style-type: none;
+    margin-top: 24px;
+}
+
+.lista__item{
+    margin-top: 4px;
+    padding: 5px;   
+}
+
+.lista__item span{
+    color: #fff;
+    font-size: 1.8rem;
+}
+
+.item__btn{
+    margin-left: 8px;
+    width: 60px;
+    height: 25px;
+}
+
+.item__btn:hover{
+    cursor: pointer;
+}
+
+@media (min-width:1200px){
+    
+    .todo{
+         width: 80%;        
+    }    
+}
